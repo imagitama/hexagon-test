@@ -1,6 +1,10 @@
 import { createStore, combineReducers } from 'redux'
 import calculator from './ducks/calculator/reducer'
 
-export default () => createStore(combineReducers({
+const rootReducer = combineReducers({
   calculator
-}))
+})
+
+export const store = createStore(rootReducer)
+
+export type AppState = ReturnType<typeof rootReducer>
