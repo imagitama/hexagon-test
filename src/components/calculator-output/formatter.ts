@@ -23,7 +23,48 @@ export default (inputText: string) => {
 
   let result: string[] = []
 
+  const parseHundreds = (digits: string[]) => {
+    let result: string[] = []
+
+    digits.forEach((digit, idx) => {
+      if (idx === 0) {
+        result.push(digitNames[parseInt(digit) - 1])
+        result.push(numerals.hundred)
+        return
+      }
+
+      if (idx === 1) {
+        result.push(AND)
+        result.push(tensNames[parseInt(digit) - 1])
+        return
+      }
+
+      if (idx === 2) {
+        result.push(digitNames[parseInt(digit) - 1])
+        result.push(DOLLARS)
+        return
+      }
+    })
+
+    return result
+  }
+
   dollarChunks.forEach((digit, idx) => {
+    // thousands
+    if (dollarChunks.length === 4) {
+      // one thousand etc.
+      if (idx === 0) {
+        result.push(digitNames[parseInt(digit) - 1])
+        result.push(numerals.thousand)
+        return
+      } else {
+        if (idx === 1) {
+          result.push(AND)
+          result = result.concat(parseHundreds(dollarChunks.slice(1)))
+        }
+      }
+    }
+
     if (dollarChunks.length === 1) {
       result.push(digitNames[parseInt(digit) - 1])
       result.push(DOLLARS)
@@ -37,28 +78,21 @@ export default (inputText: string) => {
     }
 
     if (idx === 0 && dollarChunks.length === 3) {
-      result.push(digitNames[parseInt(digit) - 1])
-      result.push(numerals.hundred)
-      return
-    }
-
-    if (idx === 1 && dollarChunks.length === 3) {
-      result.push(AND)
-      result.push(tensNames[parseInt(digit) - 1])
-      return
-    }
-
-    if (idx === 2 && dollarChunks.length === 3) {
-      result.push(digitNames[parseInt(digit) - 1])
-      result.push(DOLLARS)
-      return
+      result = result.concat(parseHundreds(dollarChunks))
     }
   })
 
   centChunks.forEach((digit, idx) => {
-    if (idx === 0 && digit !== '0') {
+    if (centChunks[0] === '0' && centChunks[1] === '0') {
+      return
+    }
+
+    if (idx === 0) {
       result.push(AND)
-      result.push(tensNames[parseInt(digit) - 1])
+
+      if (digit !== '0') {
+        result.push(tensNames[parseInt(digit) - 1])
+      }
 
       if (centChunks[1] === '0') {
         result.push(CENTS)

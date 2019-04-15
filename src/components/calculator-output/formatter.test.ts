@@ -11,7 +11,16 @@ const inputsAndExpectedOutputs = [
   ['10.00', 'TEN DOLLARS'],
 
   // Single digit for dollars and single digit for cents
-  ['5.1', 'FIVE DOLLARS AND TEN CENTS']
+  ['5.1', 'FIVE DOLLARS AND TEN CENTS'],
+
+  // Thousands
+  ['5522.02', 'FIVE THOUSAND AND FIVE HUNDRED AND TWENTY TWO DOLLARS AND TWO CENTS'],
+
+  // // Singular dollar and cent
+  // ['1.1', 'ONE DOLLAR AND ONE CENT'],
+
+  // // No dollars
+  // ['0.3', 'THIRTY CENTS']
 ]
 
 describe('Formatter function', () => {
