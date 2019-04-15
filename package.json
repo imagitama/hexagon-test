@@ -5,10 +5,14 @@
   "dependencies": {
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
+    "@types/enzyme": "^3.9.1",
     "@types/jest": "^24.0.11",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.0.6",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.12.1",
+    "enzyme-to-json": "^3.3.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",
@@ -19,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -32,7 +36,15 @@
     "not op_mini all"
   ],
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{ts,tsx}"],
-    "coverageReporters": ["html", "text"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coverageReporters": [
+      "html",
+      "text"
+    ]
   }
 }

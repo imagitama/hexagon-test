@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calculator output When mounted When the formatter fails Renders correctly 1`] = `
+<Fragment>
+  Internal error
+</Fragment>
+`;
+
+exports[`Calculator output When mounted When the formatter succeeds Renders correctly 1`] = `
+<Fragment>
+  The result: 
+</Fragment>
+`;
+
+exports[`Calculator output When mounted With invalid input - not a number Renders correctly 1`] = `
+<Fragment>
+  Invalid input
+</Fragment>
+`;
+
+exports[`Calculator output When mounted With invalid input - over the limit Renders correctly 1`] = `
+<Fragment>
+  Cannot calculate that input (over 99999.99)
+</Fragment>
+`;
+
+exports[`Calculator output When mounted With no input text Renders correctly 1`] = `
+<Fragment>
+  Enter a number to calculate
+</Fragment>
+`;

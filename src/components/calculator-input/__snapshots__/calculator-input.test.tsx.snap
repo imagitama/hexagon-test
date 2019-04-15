@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calculator input When mounted Renders correctly 1`] = `
+<Fragment>
+  Enter your number:
+  <Styled(input)
+    defaultValue="Hello world!"
+    onChange={[Function]}
+    type="text"
+  />
+</Fragment>
+`;

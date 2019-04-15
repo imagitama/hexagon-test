@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App When mounted Renders correctly 1`] = `
+<Fragment>
+  <ForwardRef(render)
+    styles={
+      Object {
+        "map": undefined,
+        "name": "19v6tzj",
+        "next": undefined,
+        "styles": "
+body {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", \\"Roboto\\", \\"Oxygen\\",
+    \\"Ubuntu\\", \\"Cantarell\\", \\"Fira Sans\\", \\"Droid Sans\\", \\"Helvetica Neue\\",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, \\"Courier New\\", monospace;
+}
+",
+      }
+    }
+  />
+  <h1>
+    Number to words calculator
+  </h1>
+  <h2>
+    Input
+  </h2>
+  <ConnectFunction />
+  <h2>
+    Output
+  </h2>
+  <ConnectFunction />
+</Fragment>
+`;

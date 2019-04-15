@@ -10,15 +10,15 @@ interface CalculatorInputProps {
   changeInputText: (inputText: string) => void
 }
 
-const CalculatorInput = ({ inputText, changeInputText }: CalculatorInputProps) => (
+export const CalculatorInput = ({ inputText, changeInputText }: CalculatorInputProps) => (
   <>
     Enter your number:
     <TextInput type="text" defaultValue={inputText} onChange={event => changeInputText(event.target.value)} />
   </>
 )
 
-const mapStateToProps = ({ calculator: { inputText } }: AppState) => ({ inputText })
+export const mapStateToProps = ({ calculator: { inputText } }: AppState) => ({ inputText })
 
-const mapDispatchToProps: MapDispatchToProps<{ changeInputText: typeof changeInputText }, {}> = dispatch => bindActionCreators({ changeInputText }, dispatch)
+export const mapDispatchToProps: MapDispatchToProps<{ changeInputText: typeof changeInputText }, {}> = dispatch => bindActionCreators({ changeInputText }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalculatorInput)

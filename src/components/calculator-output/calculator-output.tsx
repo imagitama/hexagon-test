@@ -7,7 +7,7 @@ interface CalculatorInputProps {
   inputText: string
 }
 
-const CalculatorOutput = ({ inputText }: CalculatorInputProps) => {
+export const CalculatorOutput = ({ inputText }: CalculatorInputProps) => {
   if (!inputText) {
     return (
       <>
@@ -34,7 +34,7 @@ const CalculatorOutput = ({ inputText }: CalculatorInputProps) => {
     )
   }
 
-  let result = ''
+  let result = 'none'
 
   try {
     result = getResultForInputText(inputText)
@@ -55,6 +55,6 @@ const CalculatorOutput = ({ inputText }: CalculatorInputProps) => {
   )
 }
 
-const mapStateToProps = ({ calculator: { inputText } }: AppState) => ({ inputText })
+export const mapStateToProps = ({ calculator: { inputText } }: AppState) => ({ inputText })
 
 export default connect(mapStateToProps)(CalculatorOutput)

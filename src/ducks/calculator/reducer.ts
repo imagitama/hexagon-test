@@ -9,7 +9,7 @@ const defaultState: DefaultState = {
   inputText: ''
 }
 
-const reducer: Reducer<DefaultState> = (state = defaultState, action) => {
+const reducer: Reducer<DefaultState> = (state = defaultState, action = { type: '' }) => {
   switch (action.type) {
     case CHANGE_INPUT_TEXT:
       return {
