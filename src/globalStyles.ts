@@ -2,8 +2,9 @@ import { css } from '@emotion/core'
 
 export default css`
 body {
-  margin: 0;
-  padding: 0;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -12,7 +13,6 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 `

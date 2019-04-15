@@ -3,6 +3,7 @@ import { connect, MapDispatchToProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { changeInputText } from '../../ducks/calculator/actions'
 import { AppState } from '../../store'
+import TextInput from '../text-input/text-input'
 
 interface CalculatorInputProps {
   inputText: string,
@@ -12,7 +13,7 @@ interface CalculatorInputProps {
 const CalculatorInput = ({ inputText, changeInputText }: CalculatorInputProps) => (
   <>
     Enter your number:
-    <input type="text" defaultValue={inputText} onChange={event => changeInputText(event.target.value)} />
+    <TextInput type="text" defaultValue={inputText} onChange={event => changeInputText(event.target.value)} />
   </>
 )
 
