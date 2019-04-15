@@ -1,154 +1,97 @@
-const numerals = {
-  million: 'million',
-  thousand: 'thousand',
-  hundred: 'hundred'
-}
-
-const AND = 'AND'
-const DOLLAR = 'DOLLAR'
-const DOLLARS = 'DOLLARS'
-const CENT = 'CENT'
-const CENTS = 'CENTS'
-
 const tensNames = ['ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
 
 const teenNames = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
 
 const digitNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 
+// eg. "1" as "one" or "9" as "nine"
+const getSingleDigitAsWord = (singleDigit: string) => digitNames[parseInt(singleDigit) - 1]
+
+// eg. "12" as "twelve" or "35" as "thirty five"
+const getTwoDigitsAsWord = (twoDigits: string) => {
+  const firstDigit = twoDigits[0]
+  const secondDigit = twoDigits[1]
+
+  if (firstDigit === '0') {
+    return getSingleDigitAsWord(secondDigit)
+  }
+
+  const parsedTwoDigits = parseInt(twoDigits)
+
+  if (parsedTwoDigits < 20) {
+    return teenNames[parsedTwoDigits - 10]
+  }
+
+  return `${tensNames[parseInt(firstDigit) - 1]}${secondDigit !== '0' ? ` ${getSingleDigitAsWord(secondDigit)}` : ''}`
+}
+
+// eg. "100" as "one hundred" or "311" as "three hundred and eleven"
+const getThreeDigitsAsWord = (threeDigits: string) => {
+  const firstDigit = threeDigits[0]
+  return `${getSingleDigitAsWord(firstDigit)} hundred and ${getTwoDigitsAsWord(threeDigits.slice(1))}`
+}
+
+// eg. "5000" as "five thousand" or "1234" as "one thousand two hundred and thirty four"
+const getFourDigitsAsWord = (fourDigits: string) => {
+  const firstDigit = fourDigits[0]
+  return `${getSingleDigitAsWord(firstDigit)} thousand and ${getThreeDigitsAsWord(fourDigits.slice(1))}`
+}
+
+// eg. "20000" as "twenty thousand" or "12345" as "twelve thousand three hundred and fourty five"
+const getFiveDigitsAsWord = (fiveDigits: string) => {
+  return `${getTwoDigitsAsWord(fiveDigits.slice(0, 2))} thousand and ${getThreeDigitsAsWord(fiveDigits.slice(2))}`
+}
+
 export default (inputText: string) => {
   const inputRounded = parseFloat(inputText).toFixed(2)
 
   const chunks = inputRounded.toString().split('.')
   const dollarChunks = chunks[0].split('')
-  const centChunks = chunks[1].split('')
+  let centChunks = chunks[1].split('')
 
-  let result: string[] = []
+  let result = ''
 
-  const parseHundreds = (digits: string[]) => {
-    let result: string[] = []
-
-    digits.forEach((digit, idx) => {
-      if (idx === 0) {
-        result.push(digitNames[parseInt(digit) - 1])
-        result.push(numerals.hundred)
-        return
-      }
-
-      if (idx === 1) {
-        result.push(AND)
-        result.push(tensNames[parseInt(digit) - 1])
-        return
-      }
-
-      if (idx === 2) {
-        result.push(digitNames[parseInt(digit) - 1])
-        result.push(DOLLARS)
-        return
-      }
-    })
-
-    return result
+  if (dollarChunks.length === 5) {
+    result = getFiveDigitsAsWord(dollarChunks.join(''))
+  } else if (dollarChunks.length === 4) {
+    result = getFourDigitsAsWord(dollarChunks.join(''))
+  } else if (dollarChunks.length === 3) {
+    result = getThreeDigitsAsWord(dollarChunks.join(''))
+  } else if (dollarChunks.length === 2) {
+    result = getTwoDigitsAsWord(dollarChunks.join(''))
+  } else if (dollarChunks.length === 1 && dollarChunks[0] !== '0') {
+    result = getSingleDigitAsWord(dollarChunks.join(''))
   }
 
-  dollarChunks.forEach((digit, idx) => {
-    if (dollarChunks.length === 1 && dollarChunks[0] === '0') {
-      return
+  const isNotOnlyCents = dollarChunks.length > 1 || dollarChunks.length === 1 && dollarChunks[0] !== '0'
+
+  if (isNotOnlyCents) {
+    if (dollarChunks.length === 1 && dollarChunks[0] === '1') {
+      result += ' DOLLAR'
+    } else {
+      result += ' DOLLARS'
     }
-
-    // single thousands
-    if (dollarChunks.length === 4) {
-      if (idx === 0) {
-        result.push(digitNames[parseInt(digit) - 1])
-        result.push(numerals.thousand)
-        return
-      } else if (idx === 1) {
-        result.push(AND)
-        result = result.concat(parseHundreds(dollarChunks.slice(1)))
-      }
-    }
-
-    // double thousands
-    if (dollarChunks.length === 5) {
-      if (idx === 0) {
-        result.push(tensNames[parseInt(digit) - 1])
-        return
-      } else if (idx === 1) {
-        result.push(digitNames[parseInt(digit) - 1])
-        result.push(numerals.thousand)
-        return
-      } else if (idx === 2) {
-        result.push(AND)
-        result = result.concat(parseHundreds(dollarChunks.slice(2)))
-      }
-    }
-
-    if (dollarChunks.length === 1) {
-      result.push(digitNames[parseInt(digit) - 1])
-
-      if (digit === '1') {
-        result.push(DOLLAR)
-      } else {
-        result.push(DOLLARS)
-      }
-      return
-    }
-
-    if (idx === 0 && dollarChunks.length === 2) {
-      result.push(teenNames[parseInt(digit) - 1])
-      result.push(DOLLARS)
-      return
-    }
-
-    if (idx === 0 && dollarChunks.length === 3) {
-      result = result.concat(parseHundreds(dollarChunks))
-    }
-  })
-
-  if (dollarChunks.length && dollarChunks[0] !== '0' && centChunks.length === 2 && centChunks.join('') !== '00') {
-    result.push(AND)
   }
 
-  centChunks.forEach((digit, idx) => {
-    if (centChunks[0] === '0' && centChunks[1] === '0') {
-      return
-    }
+  if (centChunks.join('') === '00') {
+    return result.toUpperCase()
+  }
 
-    if (idx === 0) {
-      if (digit !== '0') {
-        if (digit === '1') {
-          if (centChunks[1] === '0') {
-            result.push(teenNames[0])
-          } else {
-            result.push(teenNames[1])
-          }
-          result.push(CENTS)
-        } else {
-          result.push(tensNames[parseInt(digit) - 1])
-        }
-      }
+  if (isNotOnlyCents) {
+    result += ' AND '
+  }
 
-      if (digit !== '1' && centChunks[1] === '0') {
-        result.push(CENTS)
-      }
+  if (centChunks.length === 2) {
+    result += getTwoDigitsAsWord(centChunks.join(''))
+  } else if (centChunks.length === 1) {
+    result += getSingleDigitAsWord(centChunks.join(''))
+  }
 
-      return
-    }
+  if (centChunks.join('') === '01') {
+    result += ' CENT'
+  } else {
+    result += ' CENTS'
+  }
 
-    if (idx === 1 && digit !== '0' && centChunks[0] !== '1') {
-      result.push(digitNames[parseInt(digit) - 1])
-
-      if (digit === '1' && centChunks[0] === '0') {
-        result.push(CENT)
-      } else {
-        result.push(CENTS)
-      }
-
-      return
-    }
-  })
-
-
-
-  return result.join(' ').toUpperCase()
+  return result.toUpperCase()
 }
