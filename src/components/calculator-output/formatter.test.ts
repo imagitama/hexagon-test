@@ -15,10 +15,10 @@ const inputsAndExpectedOutputs = [
 
   // Thousands
   ['5522.02', 'FIVE THOUSAND AND FIVE HUNDRED AND TWENTY TWO DOLLARS AND TWO CENTS'],
-  ['66622.00', 'SIXTY SIX THOUSAND AND SIX HUNDRED AND TWENTY TWO DOLLARS']
+  ['66622.00', 'SIXTY SIX THOUSAND AND SIX HUNDRED AND TWENTY TWO DOLLARS'],
 
-  // // Singular dollar and cent
-  // ['1.1', 'ONE DOLLAR AND ONE CENT'],
+  // Singular dollar and cent
+  ['1.01', 'ONE DOLLAR AND ONE CENT'],
 
   // // No dollars
   // ['0.3', 'THIRTY CENTS']

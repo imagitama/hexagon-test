@@ -5,7 +5,9 @@ const numerals = {
 }
 
 const AND = 'AND'
+const DOLLAR = 'DOLLAR'
 const DOLLARS = 'DOLLARS'
+const CENT = 'CENT'
 const CENTS = 'CENTS'
 
 const tensNames = ['ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
@@ -79,7 +81,12 @@ export default (inputText: string) => {
 
     if (dollarChunks.length === 1) {
       result.push(digitNames[parseInt(digit) - 1])
-      result.push(DOLLARS)
+
+      if (digit === '1') {
+        result.push(DOLLAR)
+      } else {
+        result.push(DOLLARS)
+      }
       return
     }
 
@@ -115,7 +122,13 @@ export default (inputText: string) => {
 
     if (idx === 1 && digit !== '0') {
       result.push(digitNames[parseInt(digit) - 1])
-      result.push(CENTS)
+
+      if (digit === '1' && centChunks[0] === '0') {
+        result.push(CENT)
+      } else {
+        result.push(CENTS)
+      }
+
       return
     }
   })
