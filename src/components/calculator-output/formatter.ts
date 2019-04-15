@@ -50,18 +50,30 @@ export default (inputText: string) => {
   }
 
   dollarChunks.forEach((digit, idx) => {
-    // thousands
+    // single thousands
     if (dollarChunks.length === 4) {
-      // one thousand etc.
       if (idx === 0) {
         result.push(digitNames[parseInt(digit) - 1])
         result.push(numerals.thousand)
         return
-      } else {
-        if (idx === 1) {
-          result.push(AND)
-          result = result.concat(parseHundreds(dollarChunks.slice(1)))
-        }
+      } else if (idx === 1) {
+        result.push(AND)
+        result = result.concat(parseHundreds(dollarChunks.slice(1)))
+      }
+    }
+
+    // double thousands
+    if (dollarChunks.length === 5) {
+      if (idx === 0) {
+        result.push(tensNames[parseInt(digit) - 1])
+        return
+      } else if (idx === 1) {
+        result.push(digitNames[parseInt(digit) - 1])
+        result.push(numerals.thousand)
+        return
+      } else if (idx === 2) {
+        result.push(AND)
+        result = result.concat(parseHundreds(dollarChunks.slice(2)))
       }
     }
 
