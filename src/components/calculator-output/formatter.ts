@@ -116,17 +116,26 @@ export default (inputText: string) => {
 
     if (idx === 0) {
       if (digit !== '0') {
-        result.push(tensNames[parseInt(digit) - 1])
+        if (digit === '1') {
+          if (centChunks[1] === '0') {
+            result.push(teenNames[0])
+          } else {
+            result.push(teenNames[1])
+          }
+          result.push(CENTS)
+        } else {
+          result.push(tensNames[parseInt(digit) - 1])
+        }
       }
 
-      if (centChunks[1] === '0') {
+      if (digit !== '1' && centChunks[1] === '0') {
         result.push(CENTS)
       }
 
       return
     }
 
-    if (idx === 1 && digit !== '0') {
+    if (idx === 1 && digit !== '0' && centChunks[0] !== '1') {
       result.push(digitNames[parseInt(digit) - 1])
 
       if (digit === '1' && centChunks[0] === '0') {

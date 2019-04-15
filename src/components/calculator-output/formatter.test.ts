@@ -10,6 +10,9 @@ const inputsAndExpectedOutputs = [
   // Two digits for dollars and double 0s for cents
   ['10.00', 'TEN DOLLARS'],
 
+  // Teen for cents
+  ['10.11', 'TEN DOLLARS AND ELEVEN CENTS'],
+
   // Single digit for dollars and single digit for cents
   ['5.1', 'FIVE DOLLARS AND TEN CENTS'],
 
