@@ -7,4 +7,7 @@ const rootReducer = combineReducers({
 
 export const store = createStore(rootReducer)
 
+// @ts-ignore
+store.subscribe(() => console.log(store.getState()))
+
 export type AppState = ReturnType<typeof rootReducer>
