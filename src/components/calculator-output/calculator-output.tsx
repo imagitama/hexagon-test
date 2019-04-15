@@ -7,11 +7,53 @@ interface CalculatorInputProps {
   inputText: string
 }
 
-const CalculatorOutput = ({ inputText }: CalculatorInputProps) => (
-  <>
-    The result: {getResultForInputText(inputText)}
-  </>
-)
+const CalculatorOutput = ({ inputText }: CalculatorInputProps) => {
+  if (!inputText) {
+    return (
+      <>
+        Enter a number to calculate
+      </>
+    )
+  }
+
+  const parsedInputText = parseFloat(parseFloat(inputText).toFixed(2))
+
+  if (isNaN(parsedInputText)) {
+    return (
+      <>
+        Invalid input
+      </>
+    )
+  }
+
+  if (parsedInputText > 99999.99) {
+    return (
+      <>
+        Cannot calculate that input (over 99999.99)
+      </>
+    )
+  }
+
+  let result = ''
+
+  try {
+    result = getResultForInputText(inputText)
+  } catch (err) {
+    console.error(err)
+
+    return (
+      <>
+        Internal error
+      </>
+    )
+  }
+
+  return (
+    <>
+      The result: {result}
+    </>
+  )
+}
 
 const mapStateToProps = ({ calculator: { inputText } }: AppState) => ({ inputText })
 
