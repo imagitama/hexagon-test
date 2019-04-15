@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppState } from '../../store'
+import getResultForInputText from './formatter'
 
 interface CalculatorInputProps {
   inputText: string
 }
-
-const getResultForInputText = (inputText: string) => inputText // todo: finish
 
 const CalculatorOutput = ({ inputText }: CalculatorInputProps) => (
   <>
