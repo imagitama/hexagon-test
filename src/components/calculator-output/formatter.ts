@@ -81,11 +81,7 @@ export default (inputText: string) => {
     result += ' AND '
   }
 
-  if (centChunks.length === 2) {
-    result += getTwoDigitsAsWord(centChunks.join(''))
-  } else if (centChunks.length === 1) {
-    result += getSingleDigitAsWord(centChunks.join(''))
-  }
+  result += getTwoDigitsAsWord(centChunks.join(''))
 
   if (centChunks.join('') === '01') {
     result += ' CENT'
