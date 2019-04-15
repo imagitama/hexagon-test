@@ -20,8 +20,8 @@ const inputsAndExpectedOutputs = [
   // Singular dollar and cent
   ['1.01', 'ONE DOLLAR AND ONE CENT'],
 
-  // // No dollars
-  // ['0.3', 'THIRTY CENTS']
+  // No dollars
+  ['0.3', 'THIRTY CENTS']
 ]
 
 describe('Formatter function', () => {

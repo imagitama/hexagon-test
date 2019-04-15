@@ -52,6 +52,10 @@ export default (inputText: string) => {
   }
 
   dollarChunks.forEach((digit, idx) => {
+    if (dollarChunks.length === 1 && dollarChunks[0] === '0') {
+      return
+    }
+
     // single thousands
     if (dollarChunks.length === 4) {
       if (idx === 0) {
@@ -101,14 +105,16 @@ export default (inputText: string) => {
     }
   })
 
+  if (dollarChunks.length && dollarChunks[0] !== '0' && centChunks.length === 2 && centChunks.join('') !== '00') {
+    result.push(AND)
+  }
+
   centChunks.forEach((digit, idx) => {
     if (centChunks[0] === '0' && centChunks[1] === '0') {
       return
     }
 
     if (idx === 0) {
-      result.push(AND)
-
       if (digit !== '0') {
         result.push(tensNames[parseInt(digit) - 1])
       }
