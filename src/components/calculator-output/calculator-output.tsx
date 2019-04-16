@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppState } from '../../store'
-import getResultForInputText from './formatter'
+import getResultForInputText, { OutOfBoundsError, InvalidInputError } from './formatter'
 
 interface CalculatorInputProps {
   inputText: string
@@ -16,30 +16,26 @@ export const CalculatorOutput = ({ inputText }: CalculatorInputProps) => {
     )
   }
 
-  const parsedInputText = parseFloat(parseFloat(inputText).toFixed(2))
-
-  if (isNaN(parsedInputText)) {
-    return (
-      <>
-        Invalid input
-      </>
-    )
-  }
-
-  if (parsedInputText > 99999.99) {
-    return (
-      <>
-        Cannot calculate that input (over 99999.99)
-      </>
-    )
-  }
-
-  let result = 'none'
+  let result = ''
 
   try {
     result = getResultForInputText(inputText)
   } catch (err) {
-    console.error(err)
+    if (err instanceof OutOfBoundsError) {
+      return (
+        <>
+          Cannot calculate that input (over 99999.99 or less than 0)
+        </>
+      )
+    }
+
+    if (err instanceof InvalidInputError) {
+      return (
+        <>
+          Invalid input
+        </>
+      )
+    }
 
     return (
       <>

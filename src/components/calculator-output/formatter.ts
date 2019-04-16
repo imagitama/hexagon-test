@@ -42,8 +42,38 @@ const getFiveDigitsAsWord = (fiveDigits: string) => {
   return `${getTwoDigitsAsWord(fiveDigits.slice(0, 2))} thousand and ${getThreeDigitsAsWord(fiveDigits.slice(2))}`
 }
 
+class FormatterError extends Error {
+  constructor(inputText: string, errorMessage: string) {
+    super(`Cannot format input text ${inputText}: ${errorMessage}!`)
+  }
+}
+
+export class OutOfBoundsError extends FormatterError {
+  constructor(inputText: string) {
+    super(inputText, 'out of bounds')
+    Object.setPrototypeOf(this, OutOfBoundsError.prototype)
+  }
+}
+
+export class InvalidInputError extends FormatterError {
+  constructor(inputText: string) {
+    super(inputText, 'input is invalid')
+    Object.setPrototypeOf(this, InvalidInputError.prototype)
+  }
+}
+
 export default (inputText: string) => {
-  const inputRounded = parseFloat(inputText).toFixed(2)
+  const inputFloat = parseFloat(inputText)
+
+  if (isNaN(inputFloat)) {
+    throw new InvalidInputError(inputText)
+  }
+
+  if (inputFloat > 99999.99 || inputFloat < 0) {
+    throw new OutOfBoundsError(inputText)
+  }
+
+  const inputRounded = inputFloat.toFixed(2)
 
   const chunks = inputRounded.toString().split('.')
   const dollarChunks = chunks[0].split('')

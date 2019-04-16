@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow, ShallowWrapper } from 'enzyme'
 import { CalculatorOutput, mapStateToProps } from './calculator-output'
-import getResultForInputText from './formatter'
+import getResultForInputText, { OutOfBoundsError, InvalidInputError } from './formatter'
 
 jest.mock('./formatter')
 
@@ -25,49 +25,59 @@ describe('Calculator output', () => {
       })
     })
 
-    describe('With invalid input - not a number', () => {
-      beforeAll(() => {
-        component.setProps({
-          inputText: 'Hello world!'
-        })
-      })
-
-      it('Renders correctly', () => {
-        expect(component).toMatchSnapshot()
-      })
-    })
-
-    describe('With invalid input - over the limit', () => {
-      beforeAll(() => {
-        component.setProps({
-          inputText: '9999999999999999999999'
-        })
-      })
-
-      it('Renders correctly', () => {
-        expect(component).toMatchSnapshot()
-      })
-    })
-
     describe('When the formatter fails', () => {
-      beforeAll(() => {
-        getResultForInputText.mockImplementation(() => {
-          throw new Error('Something bad happened')
+      describe('With an out of bounds error', () => {
+        beforeAll(() => {
+          (getResultForInputText as jest.Mock).mockImplementation(() => {
+            throw new OutOfBoundsError('99999999999')
+          })
+
+          component.setProps({
+            inputText: '99999999999'
+          })
         })
 
-        component.setProps({
-          inputText: '123.456'
+        it('Renders correctly', () => {
+          expect(component).toMatchSnapshot()
+        })
+      })
+      
+      describe('With an invalid input error', () => {
+        beforeAll(() => {
+          (getResultForInputText as jest.Mock).mockImplementation(() => {
+            throw new InvalidInputError('foo')
+          })
+
+          component.setProps({
+            inputText: 'foo'
+          })
+        })
+
+        it('Renders correctly', () => {
+          expect(component).toMatchSnapshot()
         })
       })
 
-      it('Renders correctly', () => {
-        expect(component).toMatchSnapshot()
+      describe('With any other error', () => {
+        beforeAll(() => {
+          (getResultForInputText as jest.Mock).mockImplementation(() => {
+            throw new Error('Something bad happened')
+          })
+
+          component.setProps({
+            inputText: '123.456'
+          })
+        })
+
+        it('Renders correctly', () => {
+          expect(component).toMatchSnapshot()
+        })
       })
     })
 
     describe('When the formatter succeeds', () => {
       beforeAll(() => {
-        getResultForInputText.mockImplementation(jest.requireActual('./formatter').getResultForInputText)
+        (getResultForInputText as jest.Mock).mockImplementation(() => 'MOCK OUTPUT WORDS')
 
         component.setProps({
           inputText: '123.456'
