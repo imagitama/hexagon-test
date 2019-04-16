@@ -4,6 +4,14 @@ const teenNames = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
 
 const digitNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 
+/**
+ * Formatter function that takes a string with a number and returns the word/string version of it
+ * eg. '123.456' returns 'ONE HUNDRED AND TWENTY THREE DOLLARS AND FORTY SIX CENTS'
+ * 
+ * Each "level" is hardcoded eg. million, thousand, hundred, etc. however the bigger number calls 
+ * the smaller number function to re-use logic.
+ */
+
 // eg. "1" as "one" or "9" as "nine"
 const getSingleDigitAsWord = (singleDigit: string) => digitNames[parseInt(singleDigit) - 1]
 
